@@ -1,26 +1,196 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ink: #0d0d0d;
+  --color-red: #e03a2f;
+  --color-cognac: #b4652f;
+  --color-paper: #ffffff;
+  --color-warm-paper: #f5f1ec;
+  --font-body: var(--font-archivo), sans-serif;
+  --font-display: var(--font-archivo-black), sans-serif;
+  --font-gurmukhi: var(--font-noto-gurmukhi), sans-serif;
+  --ease-zaf: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  /* Anchors clear the 64px sticky nav so a section's overline and the top of
+     its H2 are never hidden behind it on arrival. */
+  scroll-padding-top: 64px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: #ffffff;
+  color: #0d0d0d;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #e03a2f;
+  outline-offset: 3px;
+}
+
+/* Skip link: out of the way until a keyboard reaches it, then it lands in the
+   top-left corner as an ordinary ink button. */
+.sr-only-focusable {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 400;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  transform: translateY(-200%);
+}
+.sr-only-focusable:focus-visible {
+  transform: none;
+}
+
+/* ---- The diagonal motif ---- */
+/* Right-edge cut; override the offset with --cut */
+.cut-r {
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut, 16px)) 100%, 0 100%);
+}
+/* Bottom-right corner cut on tiles/panels; override with --cc / --cc2 */
+.cut-corner {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--cc, 32px)),
+    calc(100% - var(--cc2, 32px)) 100%,
+    0 100%
+  );
+}
+/* Large image crop (44/88px double diagonal) */
+.cut-crop {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 44px),
+    calc(100% - 88px) 100%,
+    0 100%
+  );
+}
+
+/* Touch devices never fire :hover, so the gallery's grayscale-to-colour
+   reward would never arrive for the primary mobile audience. Give them the
+   photographs in colour from the start. */
+@media (hover: none) {
+  .gallery-photo {
+    filter: none;
+  }
+}
+
+/* Player progress. The fill is always full width and slides in from the left
+   inside a clipping track, rather than growing. Two things fall out of that:
+   the diagonal tip keeps a constant angle at every position (the clip-path is
+   measured on the element's own box, so a growing or scaling element would
+   bend it — and near 0% it degenerates into a wedge), and the animation is a
+   compositor-only transform instead of a per-frame layout. */
+.progress-fill {
+  transition: transform 0.25s linear;
+}
+/* While scrubbing, the fill must sit under the pointer, not ease toward it. */
+.progress-fill[data-dragging="true"] {
+  transition: none;
+}
+
+/* ---- Recurring type patterns ---- */
+.overline-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+}
+.section-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0 0 clamp(32px, 4vw, 56px) 0;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Load-in animations ---- */
+@keyframes zafSlide {
+  from {
+    opacity: 0;
+    transform: translate3d(-52px, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes zafFade {
+  from {
+    opacity: 0;
+    transform: scale(1.025);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes zafUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Scroll reveals ---- */
+.reveal-pending {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.75s var(--ease-zaf),
+    transform 0.75s var(--ease-zaf);
+}
+.reveal-shown {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* The entrance choreography and scroll reveals are pure decoration: remove
+     them outright rather than racing them to zero. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+  .reveal-pending {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Travel is what causes discomfort, so hover and state movement resolves
+     instantly — the change still lands, it just doesn't slide. Colour and
+     opacity keep transitioning, so every state change stays legible instead
+     of snapping. */
+  *,
+  *::before,
+  *::after {
+    transition-property: color, background-color, border-color, opacity !important;
+  }
+
+  /* The player's fill is information, not ornament: it keeps moving. */
+  .progress-fill {
+    transition-property: transform !important;
+  }
 }

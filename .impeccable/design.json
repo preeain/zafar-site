@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "title": "Design System: Zafar Sandhu — Artist Homepage",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0D0D0D",
+        "tonalRamp": ["#0D0D0D", "#242424", "#3D3D3D", "#585858", "#757575", "#969696", "#BABABA", "#E2E2E2"]
+      },
+      "plaid-red": {
+        "role": "primary",
+        "displayName": "Plaid Red",
+        "canonical": "#E03A2F",
+        "tonalRamp": ["#2E0A07", "#571310", "#821D17", "#AD2820", "#E03A2F", "#EA6A5F", "#F49C93", "#FBD1CC"]
+      },
+      "cognac": {
+        "role": "secondary",
+        "displayName": "Cognac",
+        "canonical": "#B4652F",
+        "tonalRamp": ["#25140A", "#452614", "#66381E", "#8B4D28", "#B4652F", "#CF8A57", "#E2B08C", "#F1D8C4"]
+      },
+      "studio-white": {
+        "role": "neutral",
+        "displayName": "Studio White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": ["#1A1A1A", "#3B3B3B", "#5C5C5C", "#7E7E7E", "#A1A1A1", "#C4C4C4", "#E5E5E5", "#FFFFFF"]
+      },
+      "warm-paper": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#F5F1EC",
+        "tonalRamp": ["#231F1A", "#413B33", "#60584D", "#807768", "#A19686", "#C2B8A9", "#DFD8CD", "#F5F1EC"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Section H2s — huge, uppercase, tight (lh 0.95), text-wrap balance." },
+      "headline": { "displayName": "Headline", "purpose": "Current-track title in the main player." },
+      "title": { "displayName": "Title", "purpose": "Track rows, tile titles, plate titles, mobile menu links." },
+      "body": { "displayName": "Body", "purpose": "Bio, community, and panel paragraphs at 15–16px / lh 1.6–1.7." },
+      "label": { "displayName": "Label", "purpose": "Overlines, nav, captions, buttons — uppercase, 600, tracked 0.14em–0.24em. One sanctioned exception below the 11px floor: the hero plate's TOP SINGLE / NOW PLAYING label is 10px, specified that size by the handoff." },
+      "gurmukhi": { "displayName": "Gurmukhi Accent", "purpose": "Punjabi script only: the story headline and the lyrics column." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-zaf", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Signature easing for every transition, load-in, and scroll reveal." },
+      { "name": "reveal", "value": "opacity 0.75s var(--ease-zaf), transform 0.75s var(--ease-zaf)", "purpose": "Scroll reveal: opacity 0 / translateY(26px) → none, once per element." },
+      { "name": "load-logo", "value": "zafSlide 0.9s var(--ease-zaf) both", "purpose": "Hero logo slides along the diagonal (translate3d(-52px, 26px, 0) → none)." },
+      { "name": "load-photo", "value": "zafFade 1.1s var(--ease-zaf) 0.15s both", "purpose": "Hero photo fades in from scale(1.025)." },
+      { "name": "load-stagger", "value": "zafUp 0.8s var(--ease-zaf) both", "purpose": "Tagline / buttons / plate / links rise at 0.3s–0.6s delays." },
+      { "name": "progress", "value": "width 0.25s linear", "purpose": "Player progress fills — the only linear transition in the system." },
+      { "name": "hover-shift", "value": "transform 0.2s var(--ease-zaf)", "purpose": "Buttons translateX(4px), tiles translateY(-4px)." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "760px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "CTA Button (Red)",
+      "kind": "button",
+      "refersTo": "button-cta",
+      "description": "The action button — LISTEN, JOIN, PRESAVE. Red ground, diagonal right edge, inverts to ink on hover.",
+      "html": "<a class=\"ds-btn-cta\" href=\"#\">LISTEN</a>",
+      "css": ".ds-btn-cta { display: inline-flex; align-items: center; min-height: 52px; padding: 0 44px 0 30px; background: #E03A2F; color: #FFFFFF; font-family: Archivo, sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border: none; border-radius: 0; clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%); transition: background 0.2s ease, transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-cta:hover { background: #0D0D0D; transform: translateX(4px); } .ds-btn-cta:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Ink Button",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Secondary action on white — LATEST VIDEO, PRESS KIT, BOOK A SHOW. Ink ground that goes red on hover.",
+      "html": "<a class=\"ds-btn-ink\" href=\"#\"><span class=\"ds-btn-ink-glyph\">&#9654;</span>LATEST VIDEO</a>",
+      "css": ".ds-btn-ink { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 40px 0 24px; background: #0D0D0D; color: #FFFFFF; font-family: Archivo, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; border: none; border-radius: 0; clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%); transition: background 0.2s ease, transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-ink-glyph { font-size: 10px; color: #E03A2F; } .ds-btn-ink:hover { background: #E03A2F; transform: translateX(4px); } .ds-btn-ink:hover .ds-btn-ink-glyph { color: #FFFFFF; } .ds-btn-ink:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Bordered action that inverts on hover — TICKETS (goes red), LYRICS toggle, START A COLLAB.",
+      "html": "<button class=\"ds-btn-outline\">TICKETS</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; min-height: 44px; padding: 0 30px 0 18px; background: #FFFFFF; color: #0D0D0D; font-family: Archivo, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid #0D0D0D; border-radius: 0; cursor: pointer; clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%); transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; } .ds-btn-outline:hover { background: #E03A2F; border-color: #E03A2F; color: #FFFFFF; } .ds-btn-outline:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Bento Tile",
+      "kind": "card",
+      "refersTo": "tile",
+      "description": "World-of-Zafar tile: 1px ink border, 32px corner cut, overline / title / action-line structure, lifts on hover.",
+      "html": "<a class=\"ds-tile\" href=\"#\"><span class=\"ds-tile-overline\">LATEST RELEASE</span><span class=\"ds-tile-title\">[DEBUT SINGLE]</span><span class=\"ds-tile-action\">STREAMING EVERYWHERE &rarr;</span></a>",
+      "css": ".ds-tile { display: flex; flex-direction: column; min-height: 240px; padding: 28px; background: #FFFFFF; color: #0D0D0D; text-decoration: none; border: 1px solid #0D0D0D; border-radius: 0; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 32px), calc(100% - 32px) 100%, 0 100%); transition: transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-tile:hover { transform: translateY(-4px); } .ds-tile-overline { font-family: Archivo, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.6; } .ds-tile-title { margin-top: 14px; font-family: 'Archivo Black', sans-serif; font-size: 22px; text-transform: uppercase; } .ds-tile-action { margin-top: auto; padding-top: 32px; font-family: Archivo, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; } .ds-tile:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Bento Tile (Red)",
+      "kind": "card",
+      "refersTo": "tile-red",
+      "description": "The single red tile permitted per page (default: NEXT SHOW). Same geometry, inverted color.",
+      "html": "<a class=\"ds-tile-red\" href=\"#\"><span class=\"ds-tile-red-overline\">NEXT SHOW</span><span class=\"ds-tile-red-title\">[CITY]</span><span class=\"ds-tile-red-action\">GET PRESALE &rarr;</span></a>",
+      "css": ".ds-tile-red { display: flex; flex-direction: column; min-height: 240px; padding: 28px; background: #E03A2F; color: #FFFFFF; text-decoration: none; border: 1px solid #E03A2F; border-radius: 0; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 32px), calc(100% - 32px) 100%, 0 100%); transition: transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-tile-red:hover { transform: translateY(-4px); } .ds-tile-red-overline { font-family: Archivo, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.7; } .ds-tile-red-title { margin-top: 14px; font-family: 'Archivo Black', sans-serif; font-size: 22px; text-transform: uppercase; } .ds-tile-red-action { margin-top: auto; padding-top: 32px; font-family: Archivo, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; } .ds-tile-red:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }"
+    },
+    {
+      "name": "Underline Input",
+      "kind": "input",
+      "refersTo": "input-underline",
+      "description": "The Circle form field — transparent on ink, hairline bottom border only, no box.",
+      "html": "<input class=\"ds-input\" type=\"email\" placeholder=\"EMAIL\" />",
+      "css": ".ds-input { min-height: 48px; width: 260px; padding: 0 0 8px; background: transparent; color: #FFFFFF; font-family: Archivo, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.08em; border: none; border-bottom: 1px solid rgba(255,255,255,0.5); border-radius: 0; } .ds-input::placeholder { color: rgba(255,255,255,0.38); text-transform: uppercase; letter-spacing: 0.16em; font-size: 12px; font-weight: 600; } .ds-input:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Sticky Nav",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "64px sticky bar: translucent white with 8px blur, 1px ink bottom border, uppercase tracked links that gain a 2px ink underline on hover.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-mark\">ZAFAR</span><span class=\"ds-nav-links\"><a class=\"ds-nav-link\" href=\"#\">MUSIC</a><a class=\"ds-nav-link\" href=\"#\">VIDEOS</a><a class=\"ds-nav-link\" href=\"#\">TOUR</a></span></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 28px; background: rgba(255,255,255,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid #0D0D0D; } .ds-nav-mark { font-family: 'Archivo Black', sans-serif; font-size: 16px; letter-spacing: -0.01em; color: #0D0D0D; } .ds-nav-links { display: flex; gap: 24px; } .ds-nav-link { padding: 12px 2px; font-family: Archivo, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #0D0D0D; text-decoration: none; border-bottom: 2px solid transparent; } .ds-nav-link:hover { border-bottom-color: #0D0D0D; } .ds-nav-link:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Track Row",
+      "kind": "custom",
+      "refersTo": "ledger-row",
+      "description": "Tracklist / tour ledger row on ink: hairline bottom border, tabular numerals, slides right and brightens on hover; red number marks the active track.",
+      "html": "<div class=\"ds-row-wrap\"><a class=\"ds-row ds-row-active\" href=\"#\"><span class=\"ds-row-num\">01</span><span class=\"ds-row-title\">[DEBUT SINGLE]</span><span class=\"ds-row-dur\">3:24</span><span class=\"ds-row-link\">&#8599;</span></a><a class=\"ds-row\" href=\"#\"><span class=\"ds-row-num\">02</span><span class=\"ds-row-title\">[TRACK TWO]</span><span class=\"ds-row-dur\">2:58</span><span class=\"ds-row-link\">&#8599;</span></a></div>",
+      "css": ".ds-row-wrap { background: #0D0D0D; padding: 8px 20px; } .ds-row { display: flex; align-items: center; gap: 18px; min-height: 56px; border-bottom: 1px solid rgba(255,255,255,0.22); text-decoration: none; transition: padding-left 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-row:hover { padding-left: 14px; } .ds-row-num { font-family: Archivo, sans-serif; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: rgba(255,255,255,0.45); } .ds-row-title { flex: 1; font-family: 'Archivo Black', sans-serif; font-size: 18px; text-transform: uppercase; color: rgba(255,255,255,0.55); } .ds-row:hover .ds-row-title { color: #FFFFFF; } .ds-row-dur { font-family: Archivo, sans-serif; font-size: 12px; font-variant-numeric: tabular-nums; color: rgba(255,255,255,0.55); } .ds-row-link { width: 48px; text-align: right; font-size: 13px; color: rgba(255,255,255,0.5); } .ds-row-link:hover { color: #E03A2F; } .ds-row-active .ds-row-num { color: #E03A2F; } .ds-row-active .ds-row-title { color: #FFFFFF; } .ds-row:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Scrubber",
+      "kind": "custom",
+      "refersTo": "scrubber",
+      "description": "The seek control. The fill is full width inside a clipping track and slides by translateX, so the diagonal tip holds a constant angle and reads as the handle. 44px hit area around a 34px (booth) or 18px (mini) bar; pointer drag, arrow/Page/Home/End keys, and role=slider with aria-valuetext.",
+      "html": "<div class=\"ds-scrub\" role=\"slider\" tabindex=\"0\" aria-label=\"Seek within [DEBUT SINGLE]\" aria-valuemin=\"0\" aria-valuemax=\"204\" aria-valuenow=\"76\" aria-valuetext=\"1:16 of 3:24\"><div class=\"ds-scrub-track\"><span class=\"ds-scrub-fill\"></span></div></div>",
+      "css": ".ds-scrub { display: flex; align-items: center; min-height: 44px; width: 320px; padding: 0; background: #0D0D0D; cursor: pointer; touch-action: none; } .ds-scrub-track { position: relative; width: 100%; height: 34px; overflow: hidden; border: 1px solid rgba(255,255,255,0.4); transition: border-color 0.2s ease; } .ds-scrub:hover .ds-scrub-track { border-color: rgba(255,255,255,0.7); } .ds-scrub-fill { position: absolute; inset: 0; width: 100%; background: #E03A2F; clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); transform: translateX(-63%); transition: transform 0.25s linear; } .ds-scrub:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Player Transport",
+      "kind": "custom",
+      "refersTo": "player-transport",
+      "description": "The signature component: 56px diagonal-cut play button plus a bordered progress bar whose fill tip is diagonal-cut. Red fill = playing, white = paused.",
+      "html": "<div class=\"ds-transport\"><button class=\"ds-transport-btn\" aria-label=\"Pause\">&#10074;&#10074;</button><div class=\"ds-transport-bar\"><span class=\"ds-transport-fill\"></span></div></div>",
+      "css": ".ds-transport { display: flex; align-items: center; gap: 16px; background: #0D0D0D; padding: 20px; } .ds-transport-btn { width: 56px; height: 56px; flex: none; background: #E03A2F; color: #FFFFFF; font-size: 14px; border: 1px solid #E03A2F; border-radius: 0; cursor: pointer; clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); transition: background 0.2s ease, color 0.2s ease; } .ds-transport-btn:hover { background: #FFFFFF; color: #0D0D0D; } .ds-transport-bar { position: relative; flex: 1; height: 34px; border: 1px solid rgba(255,255,255,0.4); } .ds-transport-fill { position: absolute; inset: 0 auto 0 0; width: 42%; background: #E03A2F; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); transition: width 0.25s linear; } .ds-transport-btn:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Section Header",
+      "kind": "custom",
+      "refersTo": "section-header",
+      "description": "The repeated opening pair: numbered overline over a Display H2. Every section uses it, numbered sequentially 01–07.",
+      "html": "<div class=\"ds-header\"><p class=\"ds-header-overline\">01 &mdash; MUSIC</p><h2 class=\"ds-header-title\">FIRST TRANSMISSIONS</h2></div>",
+      "css": ".ds-header { padding: 24px 0; } .ds-header-overline { margin: 0 0 18px; font-family: Archivo, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(13,13,13,0.55); } .ds-header-title { margin: 0; font-family: 'Archivo Black', sans-serif; font-size: clamp(36px, 5vw, 72px); line-height: 0.95; letter-spacing: -0.01em; text-transform: uppercase; text-wrap: balance; color: #0D0D0D; }"
+    },
+    {
+      "name": "Mini Player",
+      "kind": "custom",
+      "refersTo": "mini-player",
+      "description": "Fixed bottom bar revealed after first play and persisting across the page: 44px diagonal-cut transport, ellipsized title, slim 18px progress bar, tabular timecode. Red fill = playing, white = paused.",
+      "html": "<div class=\"ds-mini\"><button class=\"ds-mini-btn ds-mini-btn-playing\" aria-label=\"Pause\">&#10074;&#10074;</button><span class=\"ds-mini-title\">[DEBUT SINGLE]</span><div class=\"ds-mini-bar\"><span class=\"ds-mini-fill\"></span></div><span class=\"ds-mini-time\">1:24 / 3:24</span></div>",
+      "css": ".ds-mini { display: flex; align-items: center; gap: 20px; padding: 10px 28px; background: #0D0D0D; color: #FFFFFF; border-top: 1px solid rgba(255,255,255,0.25); } .ds-mini-btn { width: 44px; height: 44px; flex: none; background: transparent; color: #FFFFFF; font-size: 11px; font-weight: 600; border: 1px solid #FFFFFF; border-radius: 0; cursor: pointer; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); transition: background 0.2s ease, color 0.2s ease; } .ds-mini-btn-playing { background: #E03A2F; border-color: #E03A2F; } .ds-mini-btn:hover { background: #FFFFFF; color: #0D0D0D; } .ds-mini-title { flex: none; max-width: 34vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'Archivo Black', sans-serif; font-size: 14px; letter-spacing: 0.03em; text-transform: uppercase; } .ds-mini-bar { position: relative; flex: 1; height: 18px; border: 1px solid rgba(255,255,255,0.35); } .ds-mini-fill { position: absolute; inset: 0 auto 0 0; width: 41%; background: #E03A2F; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); transition: width 0.25s linear; } .ds-mini-time { flex: none; font-family: Archivo, sans-serif; font-size: 12px; font-variant-numeric: tabular-nums; color: rgba(255,255,255,0.7); } .ds-mini-btn:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Gallery Figure",
+      "kind": "custom",
+      "refersTo": "gallery-figure",
+      "description": "Grid photo cell: grayscale at rest, de-saturating and scaling slightly on hover, with a difference-blended caption pinned bottom-left. Shown here with the 44/88px double-diagonal crop that the couch and featured cells carry. The media block is a flat color stand-in for the photograph.",
+      "html": "<figure class=\"ds-figure ds-figure-cut\"><span class=\"ds-figure-media\"></span><figcaption class=\"ds-figure-caption\">THE COGNAC ROOM</figcaption></figure>",
+      "css": ".ds-figure { position: relative; margin: 0; width: 320px; height: 240px; overflow: hidden; } .ds-figure-cut { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 44px), calc(100% - 88px) 100%, 0 100%); } .ds-figure-media { position: absolute; inset: 0; background: #B4652F; filter: grayscale(1); transition: filter 0.45s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1); } .ds-figure:hover .ds-figure-media { filter: grayscale(0); transform: scale(1.02); } .ds-figure-caption { position: absolute; bottom: 12px; left: 14px; font-family: Archivo, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #FFFFFF; mix-blend-mode: difference; }"
+    },
+    {
+      "name": "Bordered Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Bookings / collaborations / press panel: 1px ink border, 32px corner cut, overline over body copy over an action button and a mailto line. Static at rest — unlike the bento tile, it does not lift.",
+      "html": "<div class=\"ds-panel\"><p class=\"ds-panel-overline\">LIVE BOOKINGS</p><p class=\"ds-panel-copy\">Festivals, club shows and private events &mdash; worldwide. Full live set or acoustic. Rider and stage plot on request.</p><a class=\"ds-panel-btn\" href=\"#\">BOOK A SHOW</a><p class=\"ds-panel-meta\">[BOOKINGS@EMAIL]</p></div>",
+      "css": ".ds-panel { max-width: 420px; padding: 32px 28px; background: #FFFFFF; border: 1px solid #0D0D0D; border-radius: 0; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 32px), calc(100% - 32px) 100%, 0 100%); } .ds-panel-overline { margin: 0; font-family: Archivo, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(13,13,13,0.6); } .ds-panel-copy { margin: 16px 0 26px; font-family: Archivo, sans-serif; font-size: 15px; line-height: 1.6; color: #0D0D0D; text-wrap: pretty; } .ds-panel-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 38px 0 24px; background: #0D0D0D; color: #FFFFFF; font-family: Archivo, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; border: none; border-radius: 0; clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%); transition: background 0.2s ease, transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-panel-btn:hover { background: #E03A2F; transform: translateX(4px); } .ds-panel-btn:focus-visible { outline: 2px solid #E03A2F; outline-offset: 3px; } .ds-panel-meta { margin: 14px 0 0; font-family: Archivo, sans-serif; font-size: 12px; letter-spacing: 0.12em; color: rgba(13,13,13,0.55); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The White Studio",
+    "overview": "Everything happens in one bright room. The page is the white studio from the hero photograph: white ground, hard black type, daylight flatness — and through it, one hard diagonal of light, the Z from the wordmark. That diagonal is the system's only decoration. It cuts button edges, tile corners, image crops, progress-fill tips, and the hero photo's left edge. Nothing is rounded, nothing glows, nothing is drawn that couldn't be cut.\n\nTwo rooms sit inside the studio: the black sections (player, community, mobile menu, mini-player) are the booth — lights down, music up — and the single cognac section is the leather-couch corner where the story is told. Red appears only when something demands action or is live right now: a CTA, a playing track, a focus ring. Its rarity is the entire reason it works.\n\nThe system is derived, not styled: every rule traces back to the supplied wordmark PNG. The design handoff at zafar-handoff/design_handoff_zafar_homepage/ is locked and final; this file documents it, it does not reopen it.",
+    "keyCharacteristics": [
+      "One motif: the Z's hard diagonal, always via clip-path",
+      "Black/white studio world; cognac for one story room; red only for action and liveness",
+      "Uppercase, wide-tracked Archivo labels against massive Archivo Black display",
+      "Flat as a poster — depth comes from ink borders and room changes, never shadows",
+      "Motion is transform + opacity only, on one signature easing"
+    ],
+    "rules": [
+      { "name": "The One Red Rule", "body": "Plaid Red means \"act\" or \"live, right now\" — nothing else, ever. If red appears somewhere that is neither a CTA nor a playing/live state, it is a defect. Max one red bento tile.", "section": "colors" },
+      { "name": "The Three Rooms Rule", "body": "White studio (default), black booth (music and community), cognac corner (story). No fourth room; no gradients between rooms — sections change color at a hard edge.", "section": "colors" },
+      { "name": "The Contrast Floor Rule", "body": "Muted text is tinted by opacity, which is where every contrast failure comes from. Floors: ink/60 (5.11:1) on white, white/55 (6.25:1) on ink, pure #000 (4.84:1) on cognac — the one place the system uses black rather than Ink, because Ink lands at 4.48:1 and no white passes at all. Two known exceptions forced by the pinned red: white on Plaid Red is 4.36:1 and Plaid Red on Ink is 4.46:1.", "section": "colors" },
+      { "name": "The Tabular Rule", "body": "font-variant-numeric: tabular-nums on every timecode and date, no exceptions (utility class .tnum).", "section": "typography" },
+      { "name": "The Three Fonts Rule", "body": "Archivo, Archivo Black, Noto Sans Gurmukhi. A fourth font is a defect.", "section": "typography" },
+      { "name": "The Section Header Rule", "body": "Every section opens with the same pair: numbered overline (0N — SECTION NAME, 12px/600/0.24em, 55% opacity) over a Display H2. Numbering is sequential across the page: 01 MUSIC … 07 WORK WITH ZAFAR.", "section": "typography" },
+      { "name": "The Flat World Rule", "body": "If an element needs to come forward, it inverts color, gains a 1px border, or moves (translateY(-4px)) — it never casts a shadow.", "section": "elevation" },
+      { "name": "The Blade Rule", "body": "All decoration is the diagonal. If an ornament is not a clip-path cut at the Z's angle family, it does not belong: no radius, no gradients, no emoji, no icons beyond the ▶ / ❚❚ / ↗ / ↓ / ✕ glyph set.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do derive every decorative choice from the diagonal: .cut-r on action edges, .cut-corner on tiles/panels, .cut-crop on large media.",
+      "Do invert colors fully on hover (red↔ink, white↔ink) and pair it with a small transform; tinting or opacity-fading a button is off-system.",
+      "Do keep labels uppercase Archivo 600 at 11–13px with 0.14–0.24em tracking, and timecodes/dates tabular.",
+      "Do keep the section-header pair (numbered overline + Display H2) on every new section, continuing the sequence.",
+      "Do keep all motion transform+opacity on cubic-bezier(0.16, 1, 0.3, 1), gated by prefers-reduced-motion.",
+      "Do keep hit targets ≥44px and the red :focus-visible outline universal."
+    ],
+    "donts": [
+      "Don't use border-radius, gradients, shadows, or emoji — anywhere, ever.",
+      "Don't let Plaid Red touch anything that is not a CTA or a live/playing state; never more than one red bento tile.",
+      "Don't use Cognac outside the story section, or introduce Amber (#C98A3B) without a decision.",
+      "Don't add a fourth font, a fifth glyph, or any icon library.",
+      "Don't redraw, retype, restack, or recolor the logo — supplied PNG only, black or inverted white.",
+      "Don't replace [BRACKETED] placeholder copy with invented facts; brackets are the honest state until real content lands (all copy lives in content/site.ts)."
+    ]
+  }
+}
