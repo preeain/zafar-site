@@ -37,7 +37,7 @@ The entire visual identity derives from the artist's wordmark: one hard diagonal
 
 ## Brand Commitments
 
-The design handoff at `/Users/preemayall/Claude/zafar-handoff/design_handoff_zafar_homepage/README.md` (pixel reference: `Zafar Homepage.dc.html`) is LOCKED AND FINAL — colors, type, spacing, clip-paths, and interactions are final design intent, not a starting point. Pinned guardrails:
+The design handoff at `../zafar-handoff/design_handoff_zafar_homepage/README.md`, kept outside this repo (pixel reference: `Zafar Homepage.dc.html`), is LOCKED AND FINAL — colors, type, spacing, clip-paths, and interactions are final design intent, not a starting point. Pinned guardrails:
 
 - One motif only: the Z's hard diagonal, via clip-path. Sharp corners everywhere. NO border-radius, NO gradients, NO emoji.
 - Red `#E03A2F` reserved for CTAs and live/playing states ONLY; max one red bento tile.
