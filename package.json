@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "smoke": "node scripts/smoke.mjs",
+    "smoke:production": "SMOKE_BASE_URL=https://zafarsandhu.com node scripts/smoke.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.0",

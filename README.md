@@ -26,6 +26,7 @@ Before shipping:
 ```bash
 npm run build
 npm audit --omit=dev
+npm run smoke
 ```
 
 ## Zafar Control Room
@@ -34,7 +35,8 @@ The private `/admin` area supports:
 
 - Structured editing for the complete public site
 - Private drafts and explicit publishing
-- Media uploads
+- Immutable content history with draft rollback
+- Verified media uploads and a searchable asset library
 - Circle audience search and CSV export
 - An administrative audit trail
 
@@ -42,7 +44,7 @@ The private `/admin` area supports:
 
 1. Create a Supabase project exclusively for Zafar.
 2. Copy `.env.example` to `.env.local` and fill in the Zafar project values.
-3. Apply `supabase/migrations/20260825204614_create_zafar_cms.sql` to that project only.
+3. Apply every SQL file in `supabase/migrations/`, in filename order, to that project only.
 4. Create the approved administrator account in Supabase Authentication.
 5. Add the same variables to the Zafar Vercel project.
 6. Sign in at `/admin/login`, save a draft, and publish it.

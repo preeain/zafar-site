@@ -53,7 +53,7 @@ export default function Hero() {
           src="/img/hero-studio.jpg"
           alt="Zafar Sandhu, seated on a stool in a white studio"
           fill
-          loading="eager"
+          preload
           sizes="(max-width: 760px) 100vw, 44vw"
           className="object-cover object-[50%_22%]"
         />
@@ -65,7 +65,7 @@ export default function Hero() {
             alt="Zafar Sandhu"
             width={1600}
             height={571}
-            preload
+            loading="eager"
             sizes="(max-width: 760px) 88vw, min(60vw, 880px)"
             className="mb-[clamp(28px,3.5vw,52px)] block h-auto w-[clamp(320px,60vw,880px)] animate-[zafSlide_0.9s_var(--ease-zaf)_both] max-[760px]:w-[88vw]"
           />

@@ -30,43 +30,85 @@ function parseContent(formData: FormData): SiteContent {
   return contentSchema.parse(value) as SiteContent;
 }
 
-async function writeAudit(actorId: string, actorEmail: string, action: "save_draft" | "publish") {
+async function applyContentVersion({
+  content,
+  actorId,
+  actorEmail,
+  versionType,
+  action,
+  sourceVersionId,
+}: {
+  content: SiteContent;
+  actorId: string;
+  actorEmail: string;
+  versionType: "draft" | "published";
+  action: "save_draft" | "publish" | "restore";
+  sourceVersionId?: number;
+}) {
   const db = getSupabaseAdmin();
-  if (!db) return;
-  await db.from("admin_audit_log").insert({ actor_id: actorId, actor_email: actorEmail, action, entity: "site_content" });
+  if (!db) throw new Error("Supabase is not configured.");
+  const { error } = await db.rpc("apply_site_content_version", {
+    p_content: content,
+    p_actor_id: actorId,
+    p_actor_email: actorEmail,
+    p_version_type: versionType,
+    p_action: action,
+    p_source_version_id: sourceVersionId ?? null,
+  });
+  if (error) throw new Error("The content change could not be saved.");
 }
 
 export async function saveDraft(formData: FormData) {
   const user = await assertAdmin();
-  const db = getSupabaseAdmin();
-  if (!db) throw new Error("Supabase is not configured.");
   const draft = parseContent(formData);
-  const { error } = await db.from("site_content").update({ draft, updated_by: user.id, updated_at: new Date().toISOString() }).eq("id", "zafar");
-  if (error) throw new Error("The draft could not be saved.");
-  await writeAudit(user.id, user.email!, "save_draft");
+  await applyContentVersion({ content: draft, actorId: user.id, actorEmail: user.email!, versionType: "draft", action: "save_draft" });
   revalidatePath("/admin");
+  revalidatePath("/admin/history");
   redirect("/admin?saved=draft");
 }
 
 export async function publishContent(formData: FormData) {
   const user = await assertAdmin();
-  const db = getSupabaseAdmin();
-  if (!db) throw new Error("Supabase is not configured.");
   const content = parseContent(formData);
-  const now = new Date().toISOString();
-  const { error } = await db.from("site_content").update({ draft: content, published: content, updated_by: user.id, updated_at: now, published_at: now }).eq("id", "zafar");
-  if (error) throw new Error("The site could not be published.");
-  await writeAudit(user.id, user.email!, "publish");
+  await applyContentVersion({ content, actorId: user.id, actorEmail: user.email!, versionType: "published", action: "publish" });
   revalidatePath("/");
   revalidatePath("/admin");
+  revalidatePath("/admin/history");
   redirect("/admin?saved=published");
 }
 
 export async function restoreDefaults() {
   const user = await assertAdmin();
+  await applyContentVersion({ content: defaultContent, actorId: user.id, actorEmail: user.email!, versionType: "draft", action: "restore" });
+  revalidatePath("/admin/history");
+  redirect("/admin?saved=restored");
+}
+
+export async function restoreVersion(formData: FormData) {
+  const parsedId = z.coerce.number().int().positive().safeParse(formData.get("versionId"));
+  if (!parsedId.success) throw new Error("Choose a valid version to restore.");
+
+  const user = await assertAdmin();
   const db = getSupabaseAdmin();
   if (!db) throw new Error("Supabase is not configured.");
-  await db.from("site_content").update({ draft: defaultContent, updated_by: user.id, updated_at: new Date().toISOString() }).eq("id", "zafar");
-  await writeAudit(user.id, user.email!, "save_draft");
-  redirect("/admin?saved=restored");
+
+  const { data, error } = await db
+    .from("content_versions")
+    .select("snapshot")
+    .eq("id", parsedId.data)
+    .maybeSingle();
+  if (error || !data) throw new Error("That content version is no longer available.");
+
+  const content = contentSchema.parse(data.snapshot) as SiteContent;
+  await applyContentVersion({
+    content,
+    actorId: user.id,
+    actorEmail: user.email!,
+    versionType: "draft",
+    action: "restore",
+    sourceVersionId: parsedId.data,
+  });
+  revalidatePath("/admin");
+  revalidatePath("/admin/history");
+  redirect("/admin/history?restored=1");
 }

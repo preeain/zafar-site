@@ -32,7 +32,7 @@ export default function AdminLogin({ configured }: { configured: boolean }) {
     <main className="admin-shell min-h-screen bg-ink text-white">
       <div className="grid min-h-screen lg:grid-cols-[1.15fr_.85fr]">
         <section className="relative hidden overflow-hidden border-r border-white/20 lg:block">
-          <Image src="/img/hero-studio.jpg" alt="" fill preload className="object-cover grayscale" />
+          <Image src="/img/hero-studio.jpg" alt="" fill preload sizes="(min-width: 1024px) 58vw, 1px" className="object-cover grayscale" />
           <div className="absolute inset-0 bg-ink/45" />
           <p className="absolute bottom-10 left-10 max-w-md font-display text-5xl leading-[.9]">THE WORK BEHIND THE MUSIC.</p>
         </section>
