@@ -23,13 +23,17 @@ async function waitForServer() {
 }
 
 async function request(path, init) {
-  const response = await fetch(`${baseUrl}${path}`, { redirect: "manual", ...init });
+  const response = await fetch(`${baseUrl}${path}`, {
+    redirect: "manual",
+    signal: AbortSignal.timeout(10_000),
+    ...init,
+  });
   return { response, body: await response.text() };
 }
 
 async function run() {
   if (!externalBaseUrl) {
-    server = spawn("npm", ["run", "start", "--", "-p", port], {
+    server = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "-p", port], {
       env: { ...process.env, NODE_ENV: "production" },
       stdio: ["ignore", "pipe", "pipe"],
     });
