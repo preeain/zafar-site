@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { config, tracks } from "@/content/site";
+import { useSiteContent } from "@/lib/site-content";
 
 /**
  * Everything except `elapsed`. This changes only on real user intent, so the
@@ -51,6 +51,7 @@ export function fmt(s: number) {
 }
 
 export function PlayerProvider({ children }: { children: React.ReactNode }) {
+  const { config, tracks } = useSiteContent();
   const [state, setState] = useState<PlayerState>({
     currentTrack: 0,
     playing: false,
@@ -65,6 +66,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     const audio = audioRef.current;
     if (!audio) return;
     const src = tracks[state.currentTrack].src;
+    if (!src) {
+      audio.removeAttribute("src");
+      audio.load();
+      if (state.playing) setState((current) => ({ ...current, playing: false }));
+      return;
+    }
     if (!audio.src.endsWith(src)) {
       audio.src = src;
       audio.currentTime = 0;
@@ -189,6 +196,7 @@ export function useElapsed() {
 
 /** Percentage 0–100 of the given track's duration, clamped. */
 export function useProgressPct(trackIndex: number, active: boolean) {
+  const { tracks } = useSiteContent();
   const elapsed = useElapsed();
   if (!active) return 0;
   return Math.min(100, (elapsed / tracks[trackIndex].dur) * 100);

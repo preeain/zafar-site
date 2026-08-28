@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zafar Sandhu — Official Site
 
-## Getting Started
+Official artist website and private control room for Zafar Sandhu. The application is intentionally isolated from the Pree Mayall website and any other artist system.
 
-First, run the development server:
+## Production
+
+- Website: [zafarsandhu.com](https://zafarsandhu.com)
+- Admin: `/admin/login`
+- Hosting: Vercel
+- Framework: Next.js 16 App Router
+- Optional backend: a dedicated Zafar Supabase project
+
+The public website is resilient by design: when Supabase is not configured or reachable, it renders the verified content in `content/site.ts`. Admin and audience tools remain disabled until the private backend variables are present.
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Before shipping:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm audit --omit=dev
+```
 
-## Learn More
+## Zafar Control Room
 
-To learn more about Next.js, take a look at the following resources:
+The private `/admin` area supports:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Structured editing for the complete public site
+- Private drafts and explicit publishing
+- Media uploads
+- Circle audience search and CSV export
+- An administrative audit trail
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend setup
 
-## Deploy on Vercel
+1. Create a Supabase project exclusively for Zafar.
+2. Copy `.env.example` to `.env.local` and fill in the Zafar project values.
+3. Apply `supabase/migrations/20260825204614_create_zafar_cms.sql` to that project only.
+4. Create the approved administrator account in Supabase Authentication.
+5. Add the same variables to the Zafar Vercel project.
+6. Sign in at `/admin/login`, save a draft, and publish it.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Required variables:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```dotenv
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+ADMIN_EMAILS=
+```
+
+`SUPABASE_SERVICE_ROLE_KEY` is server-only. Never expose it in browser code or give it a `NEXT_PUBLIC_` prefix.
+
+## The Circle
+
+When Supabase is configured, the signup endpoint stores the consented email and optional city in the Zafar database. If Supabase is unavailable, `MAILING_LIST_WEBHOOK_URL` can forward the signup to a provider such as Brevo.
+
+The route includes same-origin validation, a body-size limit, explicit consent, a honeypot, and a per-instance rate limit. Durable edge rate limiting, confirmed opt-in, welcome email, and provider-level unsubscribe synchronization still require the selected production email account.
+
+Optional fallback payload:
+
+```json
+{
+  "email": "listener@example.com",
+  "city": "Vancouver",
+  "consent": true,
+  "consentVersion": "2026-08-28",
+  "source": "zafarsandhu.com"
+}
+```

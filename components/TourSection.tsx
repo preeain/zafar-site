@@ -1,7 +1,10 @@
-import { shows } from "@/content/site";
+"use client";
+
+import { useSiteContent } from "@/lib/site-content";
 import Reveal from "./Reveal";
 
 export default function TourSection() {
+  const { shows } = useSiteContent();
   return (
     <section
       id="tour"
@@ -19,9 +22,14 @@ export default function TourSection() {
             <span className="flex-1">VENUE</span>
             <span className="w-[130px]" />
           </div>
-          {shows.map((show, i) => (
+          {shows.length === 0 && (
+            <p className="m-0 border-y border-ink/25 px-1.5 py-8 text-sm leading-relaxed tracking-[0.08em] text-ink/65">
+              LIVE DATES WILL BE ANNOUNCED HERE.
+            </p>
+          )}
+          {shows.map((show) => (
             <div
-              key={i}
+              key={show.id}
               className="flex flex-wrap items-center gap-x-5 gap-y-3 border-b border-ink/25 p-[20px_6px] transition-[padding-left] duration-200 [transition-timing-function:var(--ease-zaf)] hover:pl-4"
             >
               <span className="tnum w-[110px] text-[13px] font-semibold tracking-[0.08em]">

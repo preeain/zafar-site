@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { hero, tracks } from "@/content/site";
+import { useSiteContent } from "@/lib/site-content";
+import { links } from "@/content/site";
 import { usePlayer, useElapsed, useProgressPct, fmt } from "@/lib/player";
+import TrackedLink from "./TrackedLink";
 
 /**
  * Leaf: re-renders on the playback tick so the plate around it does not.
@@ -22,6 +24,7 @@ function PlateProgress({ isTop, playing }: { isTop: boolean; playing: boolean })
 
 /** Leaf: same reason — the timecode ticks, the plate does not. */
 function PlateTime({ show }: { show: boolean }) {
+  const { tracks } = useSiteContent();
   const elapsed = useElapsed();
   return (
     <span aria-hidden="true" className="tnum mt-[5px] block text-[11px] text-ink/60">
@@ -31,7 +34,10 @@ function PlateTime({ show }: { show: boolean }) {
 }
 
 export default function Hero() {
+  const { hero, tracks, visuals } = useSiteContent();
   const p = usePlayer();
+  const topTrack = tracks[0];
+  const hasPreview = Boolean(topTrack.src);
   const isTop = p.currentTrack === 0;
   const topPlaying = p.playing && isTop;
 
@@ -47,7 +53,7 @@ export default function Hero() {
           src="/img/hero-studio.jpg"
           alt="Zafar Sandhu, seated on a stool in a white studio"
           fill
-          priority
+          loading="eager"
           sizes="(max-width: 760px) 100vw, 44vw"
           className="object-cover object-[50%_22%]"
         />
@@ -59,7 +65,7 @@ export default function Hero() {
             alt="Zafar Sandhu"
             width={1600}
             height={571}
-            priority
+            preload
             sizes="(max-width: 760px) 88vw, min(60vw, 880px)"
             className="mb-[clamp(28px,3.5vw,52px)] block h-auto w-[clamp(320px,60vw,880px)] animate-[zafSlide_0.9s_var(--ease-zaf)_both] max-[760px]:w-[88vw]"
           />
@@ -68,78 +74,108 @@ export default function Hero() {
           {hero.tagline}
         </p>
         <div className="flex animate-[zafUp_0.8s_var(--ease-zaf)_0.4s_both] flex-wrap items-center gap-[clamp(14px,2vw,24px)]">
-          <a
-            href="#music"
+          <TrackedLink
+            href={topTrack.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            eventName="listen_game"
+            eventProperties={{ placement: "hero", platform: "spotify" }}
             className="cut-r inline-flex min-h-[52px] items-center bg-red pr-11 pl-[30px] text-sm font-semibold tracking-[0.18em] text-white transition-[background,transform] duration-200 [transition-timing-function:ease,var(--ease-zaf)] hover:translate-x-1 hover:bg-ink hover:text-white"
           >
-            LISTEN
-          </a>
-          <a
-            href="#visuals"
+            LISTEN ↗
+          </TrackedLink>
+          <TrackedLink
+            href={visuals.youtubeHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            eventName="watch_game"
+            eventProperties={{ placement: "hero", platform: "youtube" }}
             className="cut-r inline-flex min-h-[52px] items-center gap-2.5 bg-ink pr-10 pl-6 text-[13px] font-semibold tracking-[0.16em] text-white transition-[background,transform] duration-200 [transition-timing-function:ease,var(--ease-zaf)] hover:translate-x-1 hover:bg-red hover:text-white"
           >
             <span aria-hidden="true" className="text-[10px] text-red">
               ▶
             </span>
             LATEST VIDEO
-          </a>
+          </TrackedLink>
         </div>
-        <button
-          onClick={p.playTop}
-          aria-label={
-            topPlaying
-              ? `Pause ${tracks[0].title}`
-              : `Play ${tracks[0].title}, top single`
-          }
-          className="cut-r relative mt-[clamp(24px,3vw,40px)] flex animate-[zafUp_0.8s_var(--ease-zaf)_0.5s_both] cursor-pointer items-center gap-[18px] border border-ink bg-white p-[12px_34px_16px_12px] text-left transition-[transform,background] duration-200 [transition-timing-function:var(--ease-zaf),ease] [--cut:20px] hover:translate-x-1 hover:bg-warm-paper"
-        >
-          <span className="cut-r block h-14 w-14 flex-none overflow-hidden [--cut:10px]">
-            <Image
-              src="/img/film-red.jpg"
-              alt=""
-              width={112}
-              height={112}
-              sizes="56px"
-              className="block h-full w-full object-cover"
-            />
-          </span>
-          <span aria-hidden="true" className="block">
-            <span
-              className={`block text-[10px] font-semibold tracking-[0.24em] ${topPlaying ? "text-red" : "text-ink/60"}`}
-            >
-              {topPlaying ? "NOW PLAYING" : "TOP SINGLE"}
-            </span>
-            <span className="mt-[5px] block font-display text-[17px] text-ink">
-              {tracks[0].title}
-            </span>
-          </span>
-          <span aria-hidden="true" className="ml-3.5 block text-right">
-            <span className="block text-xs font-semibold tracking-[0.14em] text-ink">
-              {topPlaying ? "❚❚" : "PLAY ▶"}
-            </span>
-            <PlateTime show={isTop && p.started} />
-          </span>
-          <span
-            aria-hidden="true"
-            className="absolute right-0 bottom-0 left-0 block h-1 overflow-hidden bg-ink/12"
+        {hasPreview ? (
+          <button
+            onClick={p.playTop}
+            aria-label={topPlaying ? `Pause ${topTrack.title}` : `Play ${topTrack.title}, top single`}
+            className="cut-r relative mt-[clamp(24px,3vw,40px)] flex animate-[zafUp_0.8s_var(--ease-zaf)_0.5s_both] cursor-pointer items-center gap-[18px] border border-ink bg-white p-[12px_34px_16px_12px] text-left transition-[transform,background] duration-200 [transition-timing-function:var(--ease-zaf),ease] [--cut:20px] hover:translate-x-1 hover:bg-warm-paper"
           >
-            <PlateProgress isTop={isTop} playing={topPlaying} />
-          </span>
-        </button>
+            <TopSingleArtwork />
+            <span aria-hidden="true" className="block">
+              <span className={`block text-[10px] font-semibold tracking-[0.24em] ${topPlaying ? "text-red" : "text-ink/65"}`}>
+                {topPlaying ? "NOW PLAYING" : "TOP SINGLE"}
+              </span>
+              <span className="mt-[5px] block font-display text-[17px] text-ink">{topTrack.title}</span>
+            </span>
+            <span aria-hidden="true" className="ml-3.5 block text-right">
+              <span className="block text-xs font-semibold tracking-[0.14em] text-ink">{topPlaying ? "❚❚" : "PLAY ▶"}</span>
+              <PlateTime show={isTop && p.started} />
+            </span>
+            <span aria-hidden="true" className="absolute right-0 bottom-0 left-0 block h-1 overflow-hidden bg-ink/12">
+              <PlateProgress isTop={isTop} playing={topPlaying} />
+            </span>
+          </button>
+        ) : (
+          <TrackedLink
+            href={topTrack.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            eventName="listen_game"
+            eventProperties={{ placement: "top_single", platform: "spotify" }}
+            className="cut-r relative mt-[clamp(24px,3vw,40px)] flex w-fit animate-[zafUp_0.8s_var(--ease-zaf)_0.5s_both] items-center gap-[18px] border border-ink bg-white p-[12px_34px_12px_12px] text-left transition-[transform,background] duration-200 [transition-timing-function:var(--ease-zaf),ease] [--cut:20px] hover:translate-x-1 hover:bg-warm-paper"
+          >
+            <TopSingleArtwork />
+            <span className="block">
+              <span className="block text-[10px] font-semibold tracking-[0.24em] text-ink/65">TOP SINGLE</span>
+              <span className="mt-[5px] block font-display text-[17px] text-ink">{topTrack.title}</span>
+            </span>
+            <span className="ml-3.5 block text-xs font-semibold tracking-[0.14em] text-ink">STREAM ↗</span>
+          </TrackedLink>
+        )}
         <div className="mt-[18px] flex animate-[zafUp_0.8s_var(--ease-zaf)_0.6s_both] flex-wrap items-center gap-x-[26px] gap-y-1">
-          {hero.streamingLinks.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              target="_blank"
-              rel="noopener"
-              className="inline-flex min-h-11 items-center border-b-2 border-transparent text-[11px] font-semibold tracking-[0.18em] text-ink/60 hover:border-ink hover:text-ink"
-            >
-              {l.label}
-            </a>
-          ))}
+          {hero.streamingLinks.map((l) =>
+            l.href ? (
+              <TrackedLink
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                eventName="streaming_link"
+                eventProperties={{ placement: "hero", platform: l.label.toLowerCase() }}
+                className="inline-flex min-h-11 items-center border-b-2 border-transparent text-[11px] font-semibold tracking-[0.18em] text-ink/65 hover:border-ink hover:text-ink"
+              >
+                {l.label} ↗
+              </TrackedLink>
+            ) : (
+              <span
+                key={l.label}
+                className="inline-flex min-h-11 items-center text-[11px] font-semibold tracking-[0.18em] text-ink/40"
+              >
+                {l.label} · SOON
+              </span>
+            ),
+          )}
         </div>
       </div>
     </section>
+  );
+}
+
+function TopSingleArtwork() {
+  return (
+    <span className="cut-r block h-14 w-14 flex-none overflow-hidden bg-ink [--cut:10px]">
+      <Image
+        src={links.gameArtwork}
+        alt=""
+        width={112}
+        height={112}
+        sizes="56px"
+        className="block h-full w-full object-cover"
+      />
+    </span>
   );
 }

@@ -3,7 +3,7 @@ name: Zafar Sandhu — Artist Homepage
 description: Black/white studio world cut by the Z's diagonal, with one red reserved for action.
 colors:
   ink: "#0D0D0D"
-  plaid-red: "#E03A2F"
+  plaid-red: "#DC372D"
   cognac: "#B4652F"
   studio-white: "#FFFFFF"
   warm-paper: "#F5F1EC"
@@ -136,7 +136,7 @@ The system is derived, not styled: every rule traces back to the supplied wordma
 A near-monochrome studio palette where the two warm colors are artifacts of the photography: cognac from the leather couch, red from a 35mm plaid film scan.
 
 ### Primary
-- **Plaid Red** (#E03A2F): CTAs and live states ONLY — LISTEN, JOIN, PRESAVE, TICKETS hover, playing-state fills and `NOW PLAYING` labels, focus rings. Named for the 35mm plaid film scan it was pulled from. At most one red bento tile per page (config default: NEXT SHOW).
+- **Plaid Red** (#DC372D): CTAs and live states ONLY — LISTEN, JOIN, PRESAVE, TICKETS hover, playing-state fills and `NOW PLAYING` labels, focus rings. The source red was deepened slightly so white CTA labels pass WCAG AA. Named for the 35mm plaid film scan it was pulled from. At most one red bento tile per page (config default: TOP RELEASE).
 
 ### Secondary
 - **Cognac** (#B4652F): the story section background, and nothing else. The leather-couch room.

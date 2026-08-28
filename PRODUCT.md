@@ -40,7 +40,7 @@ The entire visual identity derives from the artist's wordmark: one hard diagonal
 The design handoff at `../zafar-handoff/design_handoff_zafar_homepage/README.md`, kept outside this repo (pixel reference: `Zafar Homepage.dc.html`), is LOCKED AND FINAL — colors, type, spacing, clip-paths, and interactions are final design intent, not a starting point. Pinned guardrails:
 
 - One motif only: the Z's hard diagonal, via clip-path. Sharp corners everywhere. NO border-radius, NO gradients, NO emoji.
-- Red `#E03A2F` reserved for CTAs and live/playing states ONLY; max one red bento tile.
+- Red `#DC372D` reserved for CTAs and live/playing states ONLY; max one red bento tile. This accessibility-adjusted value preserves the original visual character while passing AA with white CTA labels.
 - Cognac `#B4652F` is the story section background only. Amber `#C98A3B` is in-palette but currently unused.
 - Exactly three fonts: Archivo (400/500/600), Archivo Black, Noto Sans Gurmukhi (600/700). No others; no neon/purple/blue.
 - Never redraw, retype, or restack the logo — always the supplied PNG (`public/img/logo-black.png` lineage), black on white or inverted white on black.

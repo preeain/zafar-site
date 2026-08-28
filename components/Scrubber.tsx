@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { tracks } from "@/content/site";
+import { useSiteContent } from "@/lib/site-content";
 import { usePlayer, useElapsed, fmt } from "@/lib/player";
 
 type Props = {
@@ -31,6 +31,7 @@ export default function Scrubber({
   showTimes = false,
   className = "",
 }: Props) {
+  const { tracks } = useSiteContent();
   const p = usePlayer();
   const elapsed = useElapsed();
   const track = tracks[p.currentTrack];

@@ -11,10 +11,14 @@ import StorySection from "@/components/StorySection";
 import TourSection from "@/components/TourSection";
 import VisualsSection from "@/components/VisualsSection";
 import { PlayerProvider } from "@/lib/player";
+import { SiteContentProvider } from "@/lib/site-content";
+import { getPublishedContent } from "@/lib/admin/content";
 
-export default function Home() {
+export default async function Home() {
+  const content = await getPublishedContent();
   return (
-    <PlayerProvider>
+    <SiteContentProvider content={content}>
+      <PlayerProvider>
       <Nav />
       <main id="main">
         <Hero />
@@ -29,6 +33,7 @@ export default function Home() {
       </main>
       <Footer />
       <MiniPlayer />
-    </PlayerProvider>
+      </PlayerProvider>
+    </SiteContentProvider>
   );
 }

@@ -1,8 +1,11 @@
-import { bento, config } from "@/content/site";
-import Reveal from "./Reveal";
+"use client";
 
-function tileColors(key: string) {
-  return config.redTile === key
+import { useSiteContent } from "@/lib/site-content";
+import Reveal from "./Reveal";
+import TrackedLink from "./TrackedLink";
+
+function tileColors(key: string, redTile: string) {
+  return redTile === key
     ? "bg-red text-white"
     : "bg-white text-ink";
 }
@@ -11,6 +14,7 @@ const tileBase =
   "cut-corner block border border-ink p-7 transition-transform duration-300 [transition-timing-function:var(--ease-zaf)] hover:-translate-y-1";
 
 export default function BentoSection() {
+  const { bento, config } = useSiteContent();
   return (
     <section
       id="world"
@@ -24,9 +28,13 @@ export default function BentoSection() {
           <h2 className="section-h2">EVERYTHING, ONE PLACE</h2>
         </Reveal>
         <Reveal className="grid grid-cols-4 gap-3.5 max-[760px]:grid-cols-1">
-          <a
+          <TrackedLink
             href={bento.release.href}
-            className={`${tileBase} ${tileColors("release")} relative col-span-2 min-h-60 max-[760px]:col-span-1`}
+            target="_blank"
+            rel="noopener noreferrer"
+            eventName="listen_game"
+            eventProperties={{ placement: "world_tile", platform: "spotify" }}
+            className={`${tileBase} ${tileColors("release", config.redTile)} relative col-span-2 min-h-60 max-[760px]:col-span-1`}
           >
             <p className="m-0 text-[11px] font-semibold tracking-[0.22em] opacity-60">
               {bento.release.overline}
@@ -37,10 +45,10 @@ export default function BentoSection() {
             <p className="absolute bottom-6 left-7 m-0 text-[13px] font-semibold tracking-[0.14em]">
               {bento.release.action}
             </p>
-          </a>
+          </TrackedLink>
           <a
             href={bento.show.href}
-            className={`${tileBase} ${tileColors("show")} relative min-h-60`}
+            className={`${tileBase} ${tileColors("show", config.redTile)} relative min-h-60`}
           >
             <p className="m-0 text-[11px] font-semibold tracking-[0.22em] opacity-75">
               {bento.show.overline}
@@ -56,7 +64,7 @@ export default function BentoSection() {
           </a>
           <a
             href={bento.community.href}
-            className={`${tileBase} ${tileColors("community")} relative min-h-60`}
+            className={`${tileBase} ${tileColors("community", config.redTile)} relative min-h-60`}
           >
             <p className="m-0 text-[11px] font-semibold tracking-[0.22em] opacity-60">
               {bento.community.overline}
@@ -70,7 +78,7 @@ export default function BentoSection() {
           </a>
           <a
             href={bento.merch.href}
-            className={`${tileBase} ${tileColors("merch")} col-span-full flex min-h-[150px] flex-wrap items-center justify-between gap-x-8 gap-y-3 p-[26px_44px_26px_28px]`}
+            className={`${tileBase} ${tileColors("merch", config.redTile)} col-span-full flex min-h-[150px] flex-wrap items-center justify-between gap-x-8 gap-y-3 p-[26px_44px_26px_28px]`}
           >
             <div>
               <p className="m-0 mb-3 text-[11px] font-semibold tracking-[0.22em] opacity-60">

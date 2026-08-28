@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { story } from "@/content/site";
+import { useSiteContent } from "@/lib/site-content";
 import Reveal from "./Reveal";
 
 export default function StorySection() {
+  const { story } = useSiteContent();
   return (
     <section
       id="story"
@@ -40,12 +43,18 @@ export default function StorySection() {
               {para}
             </p>
           ))}
-          <a
-            href={story.pressKit.href}
-            className="cut-r inline-flex min-h-12 items-center bg-ink pr-[38px] pl-6 text-[13px] font-semibold tracking-[0.16em] text-white transition-[background,transform] duration-200 [--cut:14px] hover:translate-x-1 hover:bg-white hover:text-ink"
-          >
-            {story.pressKit.label}
-          </a>
+          {story.pressKit.href ? (
+            <a
+              href={story.pressKit.href}
+              className="cut-r inline-flex min-h-12 items-center bg-ink pr-[38px] pl-6 text-[13px] font-semibold tracking-[0.16em] text-white transition-[background,transform] duration-200 [--cut:14px] hover:translate-x-1 hover:bg-white hover:text-ink"
+            >
+              {story.pressKit.label}
+            </a>
+          ) : (
+            <span className="inline-flex min-h-12 items-center text-[13px] font-semibold tracking-[0.16em] text-white/70">
+              {story.pressKit.label}
+            </span>
+          )}
         </div>
       </Reveal>
     </section>

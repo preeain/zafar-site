@@ -16,6 +16,7 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const openerRef = useRef<HTMLButtonElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
 
   // While the overlay is open it owns the screen: Escape dismisses it, the
   // page behind it stops scrolling, and focus moves in and then back out.
@@ -24,13 +25,40 @@ export default function Nav() {
     closeRef.current?.focus();
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const background = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "nav, main, footer, [role='region'][aria-label='Now playing']",
+      ),
+    );
+    background.forEach((element) => {
+      element.inert = true;
+    });
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setMenuOpen(false);
+      if (e.key !== "Tab") return;
+      const focusable = Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])",
+        ) ?? [],
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
+      background.forEach((element) => {
+        element.inert = false;
+      });
       openerRef.current?.focus();
     };
   }, [menuOpen]);
@@ -56,7 +84,8 @@ export default function Nav() {
             height={571}
             sizes="62px"
             className="block h-[22px] w-auto"
-            priority
+            loading="eager"
+            fetchPriority="high"
           />
         </a>
         <div className="flex items-center gap-[clamp(16px,2.5vw,34px)] max-[760px]:hidden">
@@ -75,6 +104,7 @@ export default function Nav() {
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
           aria-expanded={menuOpen}
+          aria-controls="site-menu"
           className="hidden h-11 w-11 cursor-pointer flex-col justify-center gap-[5px] border-none bg-transparent p-2.5 max-[760px]:flex"
         >
           <span className="block h-0.5 bg-ink" />
@@ -85,10 +115,12 @@ export default function Nav() {
 
       {menuOpen && (
         <div
+          id="site-menu"
+          ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-label="Site menu"
-          className="fixed inset-0 z-[300] flex animate-[zafFade_0.3s_ease_both] flex-col bg-ink p-5"
+          className="fixed inset-0 z-[300] flex overscroll-contain animate-[zafFade_0.3s_ease_both] flex-col overflow-y-auto bg-ink p-5"
         >
           <div className="flex justify-end">
             <button

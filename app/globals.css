@@ -2,7 +2,8 @@
 
 @theme {
   --color-ink: #0d0d0d;
-  --color-red: #e03a2f;
+  /* Slightly deepened from the source red so white CTA labels pass WCAG AA. */
+  --color-red: #dc372d;
   --color-cognac: #b4652f;
   --color-paper: #ffffff;
   --color-warm-paper: #f5f1ec;
@@ -27,11 +28,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+a,
+button,
+input {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(220, 55, 45, 0.2);
+}
+
 a:focus-visible,
 button:focus-visible,
 input:focus-visible {
-  outline: 2px solid #e03a2f;
+  outline: 2px solid #dc372d;
   outline-offset: 3px;
+}
+
+::selection {
+  background: #dc372d;
+  color: #ffffff;
+}
+
+* {
+  scrollbar-color: #0d0d0d #f5f1ec;
 }
 
 /* Skip link: out of the way until a keyboard reaches it, then it lands in the

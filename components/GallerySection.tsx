@@ -7,7 +7,7 @@ const photos = [
     sizes: "(max-width: 760px) 100vw, 520px",
     src: "/img/hero-studio.jpg",
     alt: "Studio session, white backdrop",
-    caption: "STUDIO SESSION — [YEAR]",
+    caption: "STUDIO SESSION",
     grid: "col-start-1 col-span-5 row-start-1 row-span-8",
     position: "object-[50%_18%]",
     cut: false,

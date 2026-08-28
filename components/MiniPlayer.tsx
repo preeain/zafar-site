@@ -1,10 +1,11 @@
 "use client";
 
-import { tracks } from "@/content/site";
+import { useSiteContent } from "@/lib/site-content";
 import { usePlayer, useElapsed, fmt } from "@/lib/player";
 import Scrubber from "./Scrubber";
 
 function BarTime() {
+  const { tracks } = useSiteContent();
   const p = usePlayer();
   const elapsed = useElapsed();
   return (
@@ -15,6 +16,7 @@ function BarTime() {
 }
 
 export default function MiniPlayer() {
+  const { tracks } = useSiteContent();
   const p = usePlayer();
   if (!p.started || p.miniPlayerDismissed) return null;
 
@@ -24,11 +26,14 @@ export default function MiniPlayer() {
     <>
       {/* Reserves the bar's height at the end of the document so the fixed bar
           never covers the footer's last line. Height is pinned to the bar's. */}
-      <div aria-hidden="true" className="h-[65px]" />
+      <div
+        aria-hidden="true"
+        className="h-[calc(65px+env(safe-area-inset-bottom))]"
+      />
       <div
         role="region"
         aria-label="Now playing"
-        className="fixed right-0 bottom-0 left-0 z-[120] flex h-[65px] animate-[zafUp_0.5s_var(--ease-zaf)_both] items-center gap-[clamp(14px,2vw,26px)] border-t border-white/25 bg-ink px-[clamp(16px,4vw,56px)] text-white"
+        className="fixed right-0 bottom-0 left-0 z-[120] flex h-[calc(65px+env(safe-area-inset-bottom))] animate-[zafUp_0.5s_var(--ease-zaf)_both] items-center gap-[clamp(14px,2vw,26px)] border-t border-white/25 bg-ink px-[clamp(16px,4vw,56px)] pb-[env(safe-area-inset-bottom)] text-white"
       >
         <button
           onClick={p.togglePlay}

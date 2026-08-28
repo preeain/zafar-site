@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { footer } from "@/content/site";
+import { useSiteContent } from "@/lib/site-content";
+import TrackedLink from "./TrackedLink";
 
 export default function Footer() {
+  const { footer } = useSiteContent();
   return (
     <footer
       id="contact"
@@ -16,29 +20,39 @@ export default function Footer() {
           sizes="56px"
           className="block h-5 w-auto"
         />
-        <div className="flex flex-wrap items-center gap-[clamp(20px,3vw,44px)] text-xs font-medium tracking-[0.12em]">
-          <a
-            href={`mailto:${footer.mgmtEmail}`}
-            className="inline-flex min-h-11 items-center text-ink/60 hover:text-ink"
-          >
-            MGMT — {footer.mgmtEmail}
-          </a>
-          <a
-            href={`mailto:${footer.pressEmail}`}
-            className="inline-flex min-h-11 items-center text-ink/60 hover:text-ink"
-          >
-            PRESS — {footer.pressEmail}
-          </a>
-        </div>
+        {(footer.mgmtEmail || footer.pressEmail) && (
+          <div className="flex flex-wrap items-center gap-[clamp(20px,3vw,44px)] text-xs font-medium tracking-[0.12em]">
+            {footer.mgmtEmail && (
+              <a
+                href={`mailto:${footer.mgmtEmail}`}
+                className="inline-flex min-h-11 items-center text-ink/60 hover:text-ink"
+              >
+                MGMT — {footer.mgmtEmail}
+              </a>
+            )}
+            {footer.pressEmail && (
+              <a
+                href={`mailto:${footer.pressEmail}`}
+                className="inline-flex min-h-11 items-center text-ink/60 hover:text-ink"
+              >
+                PRESS — {footer.pressEmail}
+              </a>
+            )}
+          </div>
+        )}
         <div className="flex gap-[22px]">
           {footer.socials.map((s) => (
-            <a
+            <TrackedLink
               key={s.label}
               href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              eventName="artist_profile"
+              eventProperties={{ placement: "footer", platform: s.label.toLowerCase() }}
               className="inline-flex min-h-11 items-center border-b-2 border-transparent text-xs font-semibold tracking-[0.14em] text-ink hover:border-red"
             >
               {s.label}
-            </a>
+            </TrackedLink>
           ))}
         </div>
       </div>
