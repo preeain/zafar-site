@@ -4,7 +4,7 @@ import { useSiteContent } from "@/lib/site-content";
 import Reveal from "./Reveal";
 
 const panelClass =
-  "cut-corner border border-ink p-[32px_28px]";
+  "bookings-panel cut-corner border border-ink p-[32px_28px]";
 
 export default function BookingsSection() {
   const { bookings } = useSiteContent();
@@ -18,9 +18,9 @@ export default function BookingsSection() {
           <p className="overline-label m-0 mb-2.5 text-ink/60">
             07 — WORK WITH ZAFAR
           </p>
-          <h2 className="section-h2">BOOKINGS &amp; COLLABORATIONS</h2>
+          <h2 className="bookings-title section-h2">BOOKINGS &amp; COLLABORATIONS</h2>
         </Reveal>
-        <Reveal className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-3.5">
+        <Reveal className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-3.5 max-[760px]:grid-cols-1">
           <div className={panelClass}>
             <p className="m-0 text-[11px] font-semibold tracking-[0.22em] text-ink/60">
               LIVE BOOKINGS
@@ -72,8 +72,8 @@ export default function BookingsSection() {
             )}
           </div>
         </Reveal>
-        <Reveal className="cut-corner mt-3.5 flex flex-wrap items-center gap-x-12 gap-y-6 border border-ink p-[32px_28px]">
-          <div className="min-w-[260px] flex-1">
+        <Reveal className="bookings-panel cut-corner mt-3.5 flex flex-wrap items-center gap-x-12 gap-y-6 border border-ink p-[32px_28px]">
+          <div className="min-w-[min(260px,100%)] flex-1">
             <p className="m-0 mb-3.5 text-[11px] font-semibold tracking-[0.22em] text-ink/60">
               PRESS
             </p>

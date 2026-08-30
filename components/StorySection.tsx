@@ -11,7 +11,7 @@ export default function StorySection() {
       id="story"
       className="bg-cognac p-[clamp(56px,7vw,110px)_clamp(20px,4vw,56px)] text-white"
     >
-      <Reveal className="mx-auto grid max-w-[1240px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-[clamp(28px,4vw,64px)]">
+      <Reveal className="mx-auto grid max-w-[1240px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-[clamp(28px,4vw,64px)] max-[760px]:grid-cols-1">
         <div className="cut-crop max-h-[560px] overflow-hidden">
           <Image
             src="/img/couch.jpg"

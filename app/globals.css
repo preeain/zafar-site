@@ -134,6 +134,15 @@ input:focus-visible {
   font-variant-numeric: tabular-nums;
 }
 
+@media (max-width: 360px) {
+  .bookings-title {
+    font-size: 27px;
+  }
+  .bookings-panel {
+    padding: 28px 20px;
+  }
+}
+
 /* ---- Load-in animations ---- */
 @keyframes zafSlide {
   from {
