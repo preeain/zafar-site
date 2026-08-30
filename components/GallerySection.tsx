@@ -55,11 +55,11 @@ export default function GallerySection() {
           <p className="overline-label m-0 mb-2.5 text-ink/60">03 — GALLERY</p>
           <h2 className="section-h2">IN FRAME</h2>
         </Reveal>
-        <Reveal className="grid grid-cols-12 auto-rows-[76px] gap-3.5 max-[760px]:auto-rows-auto">
+        <Reveal className="gallery-grid grid grid-cols-12 auto-rows-[76px] gap-3.5">
           {photos.map((ph) => (
             <figure
               key={ph.id}
-              className={`group relative m-0 overflow-hidden ${ph.grid} ${ph.cut ? "cut-crop" : ""} max-[760px]:col-span-full! max-[760px]:col-start-auto! max-[760px]:row-auto! max-[760px]:min-h-[320px]`}
+              className={`gallery-item group relative m-0 overflow-hidden ${ph.grid} ${ph.cut ? "cut-crop" : ""}`}
             >
               <Image
                 src={ph.src}
